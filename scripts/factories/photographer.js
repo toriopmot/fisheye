@@ -16,15 +16,14 @@ function photographerFactory(data) {
         const citation = document.createElement ('p');
         const prix = document.createElement ('p');
 
-        click.href = "./photographer.html";
+        click.href = "./photographer.html?id=" + id;
         click.style.textDecoration = "none"
+        click.setAttribute("id", id);
         loc.textContent = city + ", " + country;
         citation.textContent = tagline;
         prix.textContent = price + "€/jour";
         
-        
-        click.setAttribute("id", id)
-
+    
         /* */
         article.appendChild(click)
 
