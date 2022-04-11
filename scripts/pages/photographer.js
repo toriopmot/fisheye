@@ -20,37 +20,66 @@ async function displayData(photographers) {
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);
         const userCard = photographerModel.getUserCard();
-        photographersSection.appendChild(userCard);
+        photographersSection.append(userCard);
     });
 };
 
-async function init() {
-    // Récupère les datas des photographes
-    const { photographers } = await getPhotographers();
-    displayData(photographers);
-};
-
-init();
+const urlParams = new URLSearchParams(window.location.search);
+const userId = urlParams.get("id");
 
 
-function photographerFactory(data) {
-    const { name, portrait, city, country, tagline, price, id } = data;
+let indexNumber = 0
 
-    const picture = `assets/photographers/${portrait}`;
+function displayPhotographerHeader() {
+    indexNumber += 1
 
-    function getUserCard() {
+    const afficherNom = document.querySelector("#photograph-name");
+    const afficherLoc = document.querySelector("#photograph-city");
+    const afficherTagline = document.querySelector("#photograph-tagline");
+    const afficherPhoto = document.querySelector("#photograph-img");
 
-        const headerNameElement = document.querySelector("#photograph-name");
-        const headerCityElement = document.querySelector("#photograph-city");
-        const headerTaglineElement = document.querySelector("#photograph-tagline");
-        const headerImgElement = document.querySelector("#photograph-img");
+    const infoPhotographe = document.createElement("div");
+    infoPhotographe.setAttribute("tabindex", `${indexNumber += 1}`)
+    infoPhotographe.setAttribute("class", "info-photographer");
+    infoPhotographe.appendChild(afficherNom);
+    infoPhotographe.appendChild(afficherLoc);
+    infoPhotographe.appendChild(afficherTagline);
 
-        headerNameElement.textContent = name;
-        headerCityElement.textContent = city + ", " + country;
-        headerTaglineElement.textContent = tagline;
-        headerImgElement.setAttribute("src", picture);
-        
-        return (data);
-    }
-    return { name, picture, getUserCard }
+    const contactBlock = document.createElement("div");
+    contactBlock.setAttribute("tabindex", `${indexNumber += 1}`)
+    contactBlock.setAttribute("class", "contact-container");
+    const contact_button = document.querySelector(".contact_button");
+    contactBlock.appendChild(contact_button);
+
+    const imgBlock = document.createElement("div");
+    imgBlock.setAttribute("tabindex", `${indexNumber += 1}`)
+    imgBlock.setAttribute("class", "img-photographer");
+    imgBlock.appendChild(afficherPhoto);
+
+    const photographHeader = document.querySelector(".photograph-header");
+    photographHeader.appendChild(infoPhotographe);
+    photographHeader.appendChild(contactBlock);
+    photographHeader.appendChild(imgBlock);
+
+    afficherNom.textContent = photographer.name;
+    afficherLoc.textContent = `${photographer.city}, ${photographer.country}`;
+    afficherTagline.textContent = photographer.tagline;
+    afficherPhoto.setAttribute("src", `assets/photographers/${photographer.portrait}`);
+    afficherPhoto.setAttribute("alt", photographer.name);
 }
+
+
+
+async function init() {
+    ({ photographers } = await getPhotographers());
+
+    photographers.forEach((photographerItem) => {
+        if (photographerItem.id == userId) {
+            photographer = photographerItem;
+            console.log(photographer)
+        }
+    });
+    displayPhotographerHeader();
+
+}
+init();
