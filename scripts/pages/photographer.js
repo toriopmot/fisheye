@@ -55,18 +55,78 @@ function displayPhotographerHeader() {
     imgBlock.setAttribute("tabindex", `${indexNumber += 1}`)
     imgBlock.setAttribute("class", "img-photographer");
     imgBlock.appendChild(afficherPhoto);
-
+    
     const photographHeader = document.querySelector(".photograph-header");
     photographHeader.appendChild(infoPhotographe);
     photographHeader.appendChild(contactBlock);
     photographHeader.appendChild(imgBlock);
-
+    
     afficherNom.textContent = photographer.name;
     afficherLoc.textContent = `${photographer.city}, ${photographer.country}`;
     afficherTagline.textContent = photographer.tagline;
     afficherPhoto.setAttribute("src", `assets/photographers/${photographer.portrait}`);
     afficherPhoto.setAttribute("alt", photographer.name);
+    afficherPhoto.setAttribute("style", "width: 200px")
 }
+
+// ************** AFFICHER MEDIA ******************** //
+
+
+async function getMedia() {
+    await fetch("../../data/photographers.json")
+        .then((res) => res.json())
+        .then((data) => (media = data.media));
+        console.log(media)
+    return ({
+        media: [...media]
+    })
+}
+
+
+// function mediaFactory(data) {
+//     const { id, photographerId, title, image, likes, date, price } = data;
+
+//     const picture = `./assets/photographers/${image}`;
+    
+//     function displayPhotographerMedia() {
+//         const mediaSection = document.querySelector(".photographer-media");
+
+//         const img = document.createElement("img");
+//         img.setAttribute("src", picture)
+//         mediaSection.appendChild(img)
+
+        
+
+//         return { mediaSection }
+//     }
+//     return { displayPhotographerMedia }
+// }
+
+async function displayPhotographerMedia() {
+
+    
+    
+
+
+    const {media} = await getMedia();
+    for(let e of media) {
+        if(e.photographerId == userId) {
+            const img = document.createElement("img");
+            const mediaSection = document.querySelector(".photographer-media");
+            img.setAttribute("src", `./assets/photographers/images/${e.image}`);
+            img.setAttribute("style", "width: 200px")
+            mediaSection.appendChild(img)
+        } else if(e.photographerId == userId) {
+            const video = document.createElement("iframe");
+            const mediaSection = document.querySelector(".photographer-media");
+            video.setAttribute("src", `./assets/photographers/images/${e.video}`);
+            video.setAttribute("style", "width: 200px")
+            mediaSection.appendChild(video)
+        }
+    }
+
+}
+
 
 
 
@@ -76,10 +136,22 @@ async function init() {
     photographers.forEach((photographerItem) => {
         if (photographerItem.id == userId) {
             photographer = photographerItem;
-            console.log(photographer)
+            // console.log(photographer)
         }
     });
+
+    ({ media } = await getMedia());
+
+    media.forEach((mediaItem) => {
+        if (mediaItem.photographerId == userId) {
+            media = mediaItem;
+            console.log(media)
+        }
+    });
+
     displayPhotographerHeader();
+    displayPhotographerMedia();
+    getMedia()
 
 }
 init();
