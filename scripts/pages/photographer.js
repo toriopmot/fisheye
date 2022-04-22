@@ -76,7 +76,7 @@ async function getMedia() {
     await fetch("../../data/photographers.json")
         .then((res) => res.json())
         .then((data) => (media = data.media));
-        console.log(media)
+        // console.log(media)
     return ({
         media: [...media]
     })
@@ -102,27 +102,43 @@ async function getMedia() {
 //     return { displayPhotographerMedia }
 // }
 
+// Ajouter retrievephotographermedia
+
+function retrievePhotographerPhotos() {
+    let array = [ {id, photographerId, title, image, video, likes, date, price} ];
+    for(let e of media) {
+        if(e.photographerId == userId) {
+            array.push(e)
+        }
+        return array;
+    }
+    console.log(array)
+}
+
+//Trier le tableau
+
 async function displayPhotographerMedia() {
-
-    
-    
-
 
     const {media} = await getMedia();
     for(let e of media) {
         if(e.photographerId == userId) {
+            if(e.image) {
             const img = document.createElement("img");
             const mediaSection = document.querySelector(".photographer-media");
             img.setAttribute("src", `./assets/photographers/images/${e.image}`);
             img.setAttribute("style", "width: 200px")
-            mediaSection.appendChild(img)
-        } else if(e.photographerId == userId) {
-            const video = document.createElement("iframe");
-            const mediaSection = document.querySelector(".photographer-media");
-            video.setAttribute("src", `./assets/photographers/images/${e.video}`);
-            video.setAttribute("style", "width: 200px")
-            mediaSection.appendChild(video)
-        }
+            mediaSection.appendChild(img) 
+            } else {
+                const video = document.createElement("video");
+                const source = document.createElement("source")
+                const mediaSection = document.querySelector(".photographer-media");
+                source.setAttribute("src", `./assets/photographers/images/${e.video}`);
+                video.setAttribute("controls", "true")
+                video.setAttribute("style", "width: 200px");
+                video.appendChild(source);
+                mediaSection.appendChild(video) ;
+            }
+        } 
     }
 
 }
@@ -145,7 +161,7 @@ async function init() {
     media.forEach((mediaItem) => {
         if (mediaItem.photographerId == userId) {
             media = mediaItem;
-            console.log(media)
+            // console.log(media)
         }
     });
 
