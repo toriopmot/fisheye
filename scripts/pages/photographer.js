@@ -102,46 +102,95 @@ async function getMedia() {
 //     return { displayPhotographerMedia }
 // }
 
-// Ajouter retrievephotographermedia
+////////////////////// Ajouter retrievephotographermedia ///////////////////////////////////////
 
-function retrievePhotographerPhotos() {
-    let array = [ {id, photographerId, title, image, video, likes, date, price} ];
-    for(let e of media) {
-        if(e.photographerId == userId) {
-            array.push(e)
+async function retrievePhotographerPhotos() {
+    // const {media} = await getMedia();
+    // const {photographerId, id, image,video} = data;
+    
+    // // console.log(media)
+    // const array = [];
+    // for(let e in media) {
+    //     if(e.photographerId == userId) {
+    //         // array.push([e, media[e]]);
+    //         array.push(photographerId, id, image, video)            
+    //     }
+    //     return array;
+    // }
+    // console.log(array);
+
+
+    let { media } = await getMedia();
+    // console.log(media);
+    const array = [];
+    media.forEach((e) => {
+        if (e.photographerId == userId) {
+            media = e;
+            array.push(e);
         }
-        return array;
-    }
+    });
     console.log(array)
 }
+// retrievePhotographerPhotos();
 
-//Trier le tableau
+//////////////////////////Trier le tableau//////////////////////////////////////////
+
+
+
+/////////////////Afficher les photos//////////////////////
 
 async function displayPhotographerMedia() {
 
-    const {media} = await getMedia();
-    for(let e of media) {
-        if(e.photographerId == userId) {
-            if(e.image) {
-            const img = document.createElement("img");
+    let array = await retrievePhotographerPhotos();
+    // console.log(media);
+    for(let e of Object.keys(array)) {
+        if(array[e].image) {
+        const img = document.createElement("img");
+        const mediaSection = document.querySelector(".photographer-media");
+        img.setAttribute("src", `./assets/photographers/images/${e.image}`);
+        img.setAttribute("style", "width: 200px");
+        mediaSection.appendChild(img);
+        } else {
+            const video = document.createElement("video");
+            const source = document.createElement("source");
             const mediaSection = document.querySelector(".photographer-media");
-            img.setAttribute("src", `./assets/photographers/images/${e.image}`);
-            img.setAttribute("style", "width: 200px")
-            mediaSection.appendChild(img) 
-            } else {
-                const video = document.createElement("video");
-                const source = document.createElement("source")
-                const mediaSection = document.querySelector(".photographer-media");
-                source.setAttribute("src", `./assets/photographers/images/${e.video}`);
-                video.setAttribute("controls", "true")
-                video.setAttribute("style", "width: 200px");
-                video.appendChild(source);
-                mediaSection.appendChild(video) ;
-            }
-        } 
+            source.setAttribute("src", `./assets/photographers/images/${e.video}`);
+            video.setAttribute("controls", "true");
+            video.setAttribute("style", "width: 200px");
+            video.appendChild(source);
+            mediaSection.appendChild(video);
+        }
     }
-
 }
+
+
+
+
+// async function displayPhotographerMedia() {
+
+//     const {media} = await getMedia();
+//     for(let e of media) {
+//         if(e.photographerId == userId) {
+//             if(e.image) {
+//             const img = document.createElement("img");
+//             const mediaSection = document.querySelector(".photographer-media");
+//             img.setAttribute("src", `./assets/photographers/images/${e.image}`);
+//             img.setAttribute("style", "width: 200px")
+//             mediaSection.appendChild(img) 
+//             } else {
+//                 const video = document.createElement("video");
+//                 const source = document.createElement("source")
+//                 const mediaSection = document.querySelector(".photographer-media");
+//                 source.setAttribute("src", `./assets/photographers/images/${e.video}`);
+//                 video.setAttribute("controls", "true")
+//                 video.setAttribute("style", "width: 200px");
+//                 video.appendChild(source);
+//                 mediaSection.appendChild(video) ;
+//             }
+//         } 
+//     }
+
+// }
 
 
 
