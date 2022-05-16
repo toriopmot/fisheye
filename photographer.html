@@ -5,37 +5,64 @@
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0454c8c878.js" crossorigin="anonymous"></script>
     <title>Fisheye - photographe </title>
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <a href="index.html" aria-label="Fisheye Home page">
+        <img src="assets/images/logo.png" class="logo" alt="Fisheye Home page"/>
+      </a>
     </header>
     <main id="main">
       <div class="photograph-header">
         <h1 id="photograph-name">name</h1>
-        <span id="photograph-city"></span>
-        <span id="photograph-tagline"></span>
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <p id="photograph-city"></p>
+        <p id="photograph-tagline"></p>
+        <button class="contact_button" aria-label="Contact me" onclick="displayModal()">Contactez-moi</button>
         <img src="" alt="profil" id="photograph-img">
+      </div>
+      
+      <div class="trier">
+        <p>Trier par</p>
+        <select id="select" name="select" onchange="displayPhotographerMedia()">
+          <option id="popularite" type="button" value="pop">Popularité</option>
+          <option id="date" type="button" value="time">Date</option>
+          <option id="titre" type="button" value="alpha">Titre</option>
+        </select>
+        <!-- <input id="popularite" type="button" value="Popularité" onclick="displayPhotographerMedia('pop')">
+        <input id="date" type="button" value="Date" onclick="displayPhotographerMedia('time')">
+        <input id="titre" type="button" value="Titre" onclick="displayPhotographerMedia('alpha')"> -->
       </div>
       <div class="photographer-media"></div>
     </main>
     <div id="contact_modal">
-			<div class="modal">
-				<header>
+      <div class="modal">
+        <header>
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
-					</div>
-          <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
+        <form>
+          <div>
+            <label for="prenom">Prénom</label>
+            <input id="prenom" name="prenom" type="text" />
+          </div>
+          <div>
+            <label for="name">Nom</label>
+            <input id="nom" name="nom" type="text"/>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email"/>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message"></textarea>
+          </div>
+          <button type="button" class="contact_button" onclick="closeModal()">Envoyer</button>
+        </form>
+      </div>
+    </div>
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
   </body>

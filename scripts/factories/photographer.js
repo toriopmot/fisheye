@@ -19,6 +19,10 @@ function photographerFactory(data) {
         click.href = "./photographer.html?id=" + id;
         click.style.textDecoration = "none"
         click.setAttribute("id", id);
+        click.setAttribute("aria-label", name)
+        loc.setAttribute("class", "loc");
+        citation.setAttribute("class", "citation");
+        prix.setAttribute("class", "prix");
         loc.textContent = city + ", " + country;
         citation.textContent = tagline;
         prix.textContent = price + "€/jour";

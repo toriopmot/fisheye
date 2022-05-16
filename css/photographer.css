@@ -1,11 +1,36 @@
 #contact_modal {
     display: none;
+    position: absolute;
+    width: 100%;
+    top: 10px;
 }
 
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
     margin: 0 100px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.photograph-header h1 {
+    color: #D3573C;
+    font-size: 40px;
+}
+
+.photograph-header img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 4px 4px 7px 1px #d1d1d1;
+}
+
+#photograph-city {
+    color: #901C1C;
+    font-size: 20px;
 }
 
 .contact_button {
@@ -73,4 +98,79 @@ form input {
     height: 68px;
     border: none;
     border-radius: 5px;
+}
+
+form textarea {
+    width: 100%;
+    height: 68px;
+    border: none;
+    border-radius: 5px; 
+}
+
+.trier {
+    display: flex;
+    margin: 40px 100px 0 100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.trier select {
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 11px;
+    width: 170px;
+    height: 70px;
+    border: none;
+    background-color: #901C1C;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.trier select option {
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 11px;
+    width: 170px;
+    height: 70px;
+    border: none;
+    background-color: #901C1C;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.photographer-media {
+    display: flex;
+    flex-wrap: wrap;
+    /* margin: 0 40px 0 100px; */
+    margin: 40px 0 40px 40px;
+}
+
+.div-media {
+    width: 25%;
+    margin-left: 5%;
+
+}
+
+.div-media img {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+}
+.div-media video {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+}
+
+.info-media {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #901C1C;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
