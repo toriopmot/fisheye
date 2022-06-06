@@ -1,3 +1,8 @@
+main {
+    z-index: 0;
+}
+
+
 #contact_modal {
     display: none;
     position: absolute;
@@ -173,4 +178,34 @@ form textarea {
     color: #901C1C;
     margin-top: -10px;
     margin-bottom: 10px;
+}
+
+#card-infos {
+    position: fixed;
+    display: flex;
+    gap: 65px;
+    bottom: 0;
+    right: 35px;
+    background-color: #db8876;
+    border-radius: 5px 5px 0 0;
+    padding: 0px 30px;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+}
+
+#diapo_modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    bottom: 20px;
+    left: 30px;
+    right: 30px;
+    max-height: 100vh;
+    background-color: #DB8876;
+    z-index: 50;
 }

@@ -149,8 +149,8 @@ async function sort(type, array) {
 }
 
 
-function removeMedia() {
-    let e = document.querySelector(".photographer-media")
+function removeMedia(elemToClean) {
+    let e = document.querySelector(elemToClean)
     e.innerHTML = ""
 }
 
@@ -161,7 +161,7 @@ function removeMedia() {
 
 
 async function displayPhotographerMedia() {
-    removeMedia();
+    removeMedia(".photographer-media");
     let media = await retrievePhotographerPhotos();
     let type = document.getElementById("select").value;
     console.log(type)
@@ -182,7 +182,7 @@ async function displayPhotographerMedia() {
             infoMedia.setAttribute("class", "info-media");
             img.setAttribute("src", `./assets/photographers/images/${e.image}`);
             img.setAttribute("style", "cursor: pointer")
-            img.setAttribute("onclick", "displayModal()")
+            img.setAttribute("onclick", "displayDiapo()")
             title.textContent = `${e.title}`;
             likes.textContent = `${e.likes}`;
             heart.setAttribute("class", "fa-solid fa-heart");
@@ -206,13 +206,15 @@ async function displayPhotographerMedia() {
             divMedia.setAttribute("class", "div-media");
             infoMedia.setAttribute("class", "info-media");
             source.setAttribute("src", `./assets/photographers/images/${e.video}`);
-            video.setAttribute("controls", "true")
+            video.setAttribute("controls", "true");
+            video.setAttribute("style", "cursor: pointer");
+            video.setAttribute("onclick", "displayDiapo()");
             title.textContent = `${e.title}`;
             likes.textContent = `${e.likes}`;
             heart.setAttribute("class", "fa-solid fa-heart");
             video.appendChild(source);
             mediaSection.appendChild(divMedia)
-            divMedia.appendChild(video) ;
+            divMedia.appendChild(video);
             divMedia.appendChild(infoMedia)
             infoMedia.appendChild(title);
             infoMedia.appendChild(divLikes)
@@ -223,7 +225,66 @@ async function displayPhotographerMedia() {
 }
 
 
+/************************* card infos *********************************/
 
+
+async function displayCardInfos() {
+    let media = await retrievePhotographerPhotos();
+    let sum = 0;
+    const nbLikes = document.querySelector(".nb-likes")
+    const price = document.querySelector(".price")
+    for(let element of media) {
+      sum += element.likes
+    }
+    nbLikes.textContent = sum
+    price.textContent = photographer.price + "€ / jour"
+}
+
+
+//*********************galery modal ******************************/
+
+function displayDiapo() {
+    const modal = document.getElementById("diapo_modal");
+	modal.style.display = "block";
+    showImagesSlide(3);
+}
+
+function closeDiapo() {
+    
+    const modal = document.getElementById("diapo_modal");
+    modal.style.display = "none";
+}
+
+
+async function showImagesSlide(n) {
+    removeMedia("#infos_photo")
+    let images = await retrievePhotographerPhotos();
+    console.log(images)
+
+    let type = document.getElementById("select").value;
+    console.log(type)
+    if(type) {
+        images = await sort(type, images);
+    }
+    
+    let infosPhoto = document.querySelector('#infos_photo');
+    let para = document.createElement('p');
+    infosPhoto.appendChild(para);    
+    
+
+    for(let i = 0; i < images.length; i++) {
+        if (i == n) {
+            const afficherPhoto = document.createElement('img');
+            afficherPhoto.setAttribute("src", `./assets/photographers/images/${images[i].image}`);
+            afficherPhoto.setAttribute("style", "width: 300px");
+            infosPhoto.appendChild(afficherPhoto);
+        }
+    }
+
+}
+
+
+/**************************** fonction init **************************/
 
 async function init() {
     ({ photographers } = await getPhotographers());
@@ -247,6 +308,8 @@ async function init() {
     displayPhotographerHeader();
     displayPhotographerMedia();
     getMedia()
+    displayCardInfos();
+    showImagesSlide()
 
 }
 init();
