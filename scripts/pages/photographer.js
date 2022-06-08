@@ -182,7 +182,7 @@ async function displayPhotographerMedia() {
             infoMedia.setAttribute("class", "info-media");
             img.setAttribute("src", `./assets/photographers/images/${e.image}`);
             img.setAttribute("style", "cursor: pointer")
-            img.setAttribute("onclick", "displayDiapo()")
+            img.setAttribute("onclick", `displayDiapo(${e.id})`)
             title.textContent = `${e.title}`;
             likes.textContent = `${e.likes}`;
             heart.setAttribute("class", "fa-solid fa-heart");
@@ -208,7 +208,7 @@ async function displayPhotographerMedia() {
             source.setAttribute("src", `./assets/photographers/images/${e.video}`);
             video.setAttribute("controls", "true");
             video.setAttribute("style", "cursor: pointer");
-            video.setAttribute("onclick", "displayDiapo()");
+            video.setAttribute("onclick", `displayDiapo(${e.id})`);
             title.textContent = `${e.title}`;
             likes.textContent = `${e.likes}`;
             heart.setAttribute("class", "fa-solid fa-heart");
@@ -243,10 +243,10 @@ async function displayCardInfos() {
 
 //*********************galery modal ******************************/
 
-function displayDiapo() {
+function displayDiapo(id) {
     const modal = document.getElementById("diapo_modal");
 	modal.style.display = "block";
-    showImagesSlide(3);
+    showImagesSlide(id);
 }
 
 function closeDiapo() {
@@ -256,7 +256,7 @@ function closeDiapo() {
 }
 
 
-async function showImagesSlide(n) {
+async function showImagesSlide(id) {
     removeMedia("#infos_photo")
     let images = await retrievePhotographerPhotos();
     console.log(images)
@@ -273,12 +273,24 @@ async function showImagesSlide(n) {
     
 
     for(let i = 0; i < images.length; i++) {
-        if (i == n) {
-            const afficherPhoto = document.createElement('img');
-            afficherPhoto.setAttribute("src", `./assets/photographers/images/${images[i].image}`);
-            afficherPhoto.setAttribute("style", "width: 300px");
-            infosPhoto.appendChild(afficherPhoto);
-        }
+        if (id == images[i].id) {
+            if (images[i].image) {
+                const afficherPhoto = document.createElement('img');
+                afficherPhoto.setAttribute("src", `./assets/photographers/images/${images[i].image}`);
+                afficherPhoto.setAttribute("style", "width: 300px");
+                infosPhoto.appendChild(afficherPhoto);
+            } else {
+                const afficherVideo = document.createElement('video');
+                const source = document.createElement("source");
+                afficherVideo.setAttribute("controls", "true");
+                afficherVideo.setAttribute("style", "cursor: pointer");
+                source.setAttribute("src", `./assets/photographers/images/${images[i].video}`);
+                afficherVideo.setAttribute("style", "width: 300px");
+                infosPhoto.appendChild(afficherVideo);
+                afficherVideo.appendChild(source);
+            }
+            
+        } 
     }
 
 }
