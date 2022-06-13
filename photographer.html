@@ -71,10 +71,13 @@
       <p class="price"></p>
     </aside>
     <div id="diapo_modal">
-      <i class="fa-solid fa-chevron-left fa-3x" onclick=""></i>
-      <div id="infos_photo"></div>
-      <img src="assets/icons/close.svg" onclick="closeDiapo()" />
-      <i class="fa-solid fa-chevron-right fa-3x" onclick=""></i>
+      <div class="flex">
+        <i class="fa-solid fa-chevron-left fa-3x" onclick=""></i>
+        <div id="infos_photo"></div>
+        
+        <i class="fa-solid fa-chevron-right fa-3x" onclick="slideSuivante(1)"></i>
+      </div>
+      <img class="croix" src="assets/icons/close.svg" onclick="closeDiapo()" />
     </div>
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>

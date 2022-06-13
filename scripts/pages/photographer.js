@@ -255,37 +255,45 @@ function closeDiapo() {
     modal.style.display = "none";
 }
 
+// function slidePrecedente() {
+//     let el = showImagesSlide(id);
+//     var prev = el.previousElementSibling;
+//     var next = el.nextElementSibling;
+
+//     console.log(el);
+//     console.log(prev);
+//     console.log(next);
+//   }
+
+  
 
 async function showImagesSlide(id) {
-    removeMedia("#infos_photo")
+    removeMedia("#infos_photo");
     let images = await retrievePhotographerPhotos();
-    console.log(images)
+    console.log(images);
 
     let type = document.getElementById("select").value;
-    console.log(type)
+    console.log(type);
     if(type) {
         images = await sort(type, images);
     }
     
-    let infosPhoto = document.querySelector('#infos_photo');
-    let para = document.createElement('p');
-    infosPhoto.appendChild(para);    
-    
-
     for(let i = 0; i < images.length; i++) {
         if (id == images[i].id) {
             if (images[i].image) {
+                let infosPhoto = document.querySelector('#infos_photo');
                 const afficherPhoto = document.createElement('img');
                 afficherPhoto.setAttribute("src", `./assets/photographers/images/${images[i].image}`);
-                afficherPhoto.setAttribute("style", "width: 300px");
+                let para = document.createElement('p');
+                para.textContent = `${images[i].title}`;
                 infosPhoto.appendChild(afficherPhoto);
+                infosPhoto.appendChild(para);
             } else {
                 const afficherVideo = document.createElement('video');
                 const source = document.createElement("source");
                 afficherVideo.setAttribute("controls", "true");
                 afficherVideo.setAttribute("style", "cursor: pointer");
                 source.setAttribute("src", `./assets/photographers/images/${images[i].video}`);
-                afficherVideo.setAttribute("style", "width: 300px");
                 infosPhoto.appendChild(afficherVideo);
                 afficherVideo.appendChild(source);
             }
@@ -293,6 +301,10 @@ async function showImagesSlide(id) {
         } 
     }
 
+}
+
+function slideSuivante(n) {
+    showImagesSlide(id += n)
 }
 
 

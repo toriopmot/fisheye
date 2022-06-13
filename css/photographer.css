@@ -206,6 +206,36 @@ form textarea {
     left: 30px;
     right: 30px;
     max-height: 100vh;
-    background-color: #DB8876;
+    background-color: #fff;
     z-index: 50;
+    color: #901C1C;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#diapo_modal img {
+    width: 600px;
+    height: 600px;
+    object-fit: cover;
+    margin-top: 20px;
+}
+
+#diapo_modal .fa-solid {
+    margin: 30px;
+}
+
+#diapo_modal .croix {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 30px;
+    right: 120px;
+}
+
+#diapo_modal p {
+    margin-top: 0;
 }
