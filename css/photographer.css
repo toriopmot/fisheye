@@ -224,6 +224,13 @@ form textarea {
     margin-top: 20px;
 }
 
+#diapo_modal video {
+    width: 600px;
+    height: 600px;
+    object-fit: cover;
+    margin-top: 20px;
+}
+
 #diapo_modal .fa-solid {
     margin: 30px;
 }

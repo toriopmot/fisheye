@@ -270,10 +270,10 @@ function closeDiapo() {
 async function showImagesSlide(id) {
     removeMedia("#infos_photo");
     let images = await retrievePhotographerPhotos();
-    console.log(images);
+    // console.log(images);
 
     let type = document.getElementById("select").value;
-    console.log(type);
+    // console.log(type);
     if(type) {
         images = await sort(type, images);
     }
@@ -288,23 +288,40 @@ async function showImagesSlide(id) {
                 para.textContent = `${images[i].title}`;
                 infosPhoto.appendChild(afficherPhoto);
                 infosPhoto.appendChild(para);
+                // console.log(images.indexOf(`${images[i]}`));
             } else {
+                let infosPhoto = document.querySelector('#infos_photo');
                 const afficherVideo = document.createElement('video');
                 const source = document.createElement("source");
                 afficherVideo.setAttribute("controls", "true");
                 afficherVideo.setAttribute("style", "cursor: pointer");
                 source.setAttribute("src", `./assets/photographers/images/${images[i].video}`);
+                let para = document.createElement('p');
+                para.textContent = `${images[i].title}`;
                 infosPhoto.appendChild(afficherVideo);
+                infosPhoto.appendChild(para);
                 afficherVideo.appendChild(source);
             }
             
         } 
     }
-
 }
 
-function slideSuivante(n) {
-    showImagesSlide(id += n)
+async function slideSuivante() {
+    let pushNext = document.querySelector(".fa-chevron-right");
+    let pushBack = document.querySelector(".fa-chevron-left")
+    let images = await retrievePhotographerPhotos();
+    let type = document.getElementById("select").value;
+    // console.log(type);
+    if(type) {
+        images = await sort(type, images);
+    }
+    let index = images.findIndex(showImagesSlide);
+    console.log(index)
+    let next = index + 1;
+    let back = index - 1;
+    console.log(next)
+    console.log(back)
 }
 
 
