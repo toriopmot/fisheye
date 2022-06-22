@@ -40,7 +40,7 @@
       <div class="modal">
         <header>
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <img class="croix" src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
         <form>
           <div>
@@ -70,14 +70,14 @@
       </div>
       <p class="price"></p>
     </aside>
-    <div id="diapo_modal">
+    <div id="diapo_modal" aria-label="image vue rapprochée">
       <div class="flex">
-        <i class="fa-solid fa-chevron-left fa-3x" onclick=""></i>
+        <i id="previousImage" class="fa-solid fa-chevron-left fa-3x" aria-label="image précédente"></i>
         <div id="infos_photo"></div>
         
-        <i class="fa-solid fa-chevron-right fa-3x" onclick="slideSuivante()"></i>
+        <i id="nextImage" class="fa-solid fa-chevron-right fa-3x" aria-label="image suivante"></i>
       </div>
-      <img class="croix" src="assets/icons/close.svg" onclick="closeDiapo()" />
+      <img class="croix" src="assets/icons/close.svg" onclick="closeDiapo()" aria-label="fermer la diapo" />
     </div>
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>

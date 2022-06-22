@@ -96,49 +96,19 @@ async function retrievePhotographerPhotos() {
 
 //////////////////////////Trier le tableau//////////////////////////////////////////
 
-
-// async function sort(type, array) {
-//     if(type == "pop") {
-//         console.log('Je doit trier par popularité')
-//         let popArray = array.sort(function (a, b) {
-//             return a.likes - b.likes;
-//         });
-//         return popArray;
-//     } else if(type == "time") {
-//         console.log('je dois trier par date')
-//         let timeArray = array.sort(function(a, b) {
-//             return new Date(a.ys, a.ms-1) - new Date(b.ys, b.ms-1);
-//         });
-//         return timeArray;
-        
-//     } else if(type == 'alpha') {
-//         console.log('je dois trier par titre')
-//         let titleArray = array.sort(function(a,b){
-//             return a.title.localeCompare(b.title);
-//         })
-//         return titleArray;
-//     } else {
-//         console.log('erreur de tri')
-//     }
-// }
-
-async function sort(type, array) {
-    
+async function sort(type, array) {   
     if(type == "pop") {
-        console.log('Je doit trier par popularité')
         let popArray = array.sort(function (a, b) {
             return a.likes - b.likes;
         });
         return popArray;
     } else if(type == "time") {
-        console.log('je dois trier par date')
         let timeArray = array.sort(function(a, b) {
             return new Date(a.ys, a.ms-1) - new Date(b.ys, b.ms-1);
         });
         return timeArray;
         
     } else if(type == 'alpha') {
-        console.log('je dois trier par titre')
         let titleArray = array.sort(function(a,b){
             return a.title.localeCompare(b.title);
         })
@@ -158,13 +128,11 @@ function removeMedia(elemToClean) {
 
 /////////////////Afficher les photos//////////////////////
 
-
-
 async function displayPhotographerMedia() {
     removeMedia(".photographer-media");
     let media = await retrievePhotographerPhotos();
     let type = document.getElementById("select").value;
-    console.log(type)
+    // console.log(type)
     if(type) {
         media = await sort(type, media);
     }
@@ -183,9 +151,11 @@ async function displayPhotographerMedia() {
             img.setAttribute("src", `./assets/photographers/images/${e.image}`);
             img.setAttribute("style", "cursor: pointer")
             img.setAttribute("onclick", `displayDiapo(${e.id})`)
+            img.setAttribute("alt",`${e.title}, vue rapprochée`)
             title.textContent = `${e.title}`;
             likes.textContent = `${e.likes}`;
             heart.setAttribute("class", "fa-solid fa-heart");
+            heart.setAttribute("aria-label", "likes")
             mediaSection.appendChild(divMedia)
             divMedia.appendChild(img);
             divMedia.appendChild(infoMedia)
@@ -209,6 +179,7 @@ async function displayPhotographerMedia() {
             video.setAttribute("controls", "true");
             video.setAttribute("style", "cursor: pointer");
             video.setAttribute("onclick", `displayDiapo(${e.id})`);
+            video.setAttribute("aria-label",`${e.title}, vue rapprochée`)
             title.textContent = `${e.title}`;
             likes.textContent = `${e.likes}`;
             heart.setAttribute("class", "fa-solid fa-heart");
@@ -227,7 +198,6 @@ async function displayPhotographerMedia() {
 
 /************************* card infos *********************************/
 
-
 async function displayCardInfos() {
     let media = await retrievePhotographerPhotos();
     let sum = 0;
@@ -243,37 +213,24 @@ async function displayCardInfos() {
 
 //*********************galery modal ******************************/
 
+//Fonction pour ouvrir la diapo
 function displayDiapo(id) {
     const modal = document.getElementById("diapo_modal");
 	modal.style.display = "block";
     showImagesSlide(id);
 }
 
+//Foncion pour fermer la diapo
 function closeDiapo() {
-    
     const modal = document.getElementById("diapo_modal");
     modal.style.display = "none";
 }
 
-// function slidePrecedente() {
-//     let el = showImagesSlide(id);
-//     var prev = el.previousElementSibling;
-//     var next = el.nextElementSibling;
-
-//     console.log(el);
-//     console.log(prev);
-//     console.log(next);
-//   }
-
-  
-
+//Fonction pour afficher l'image dans la slide, et afficher les images suivantes et précédantes
 async function showImagesSlide(id) {
     removeMedia("#infos_photo");
     let images = await retrievePhotographerPhotos();
-    // console.log(images);
-
     let type = document.getElementById("select").value;
-    // console.log(type);
     if(type) {
         images = await sort(type, images);
     }
@@ -284,11 +241,11 @@ async function showImagesSlide(id) {
                 let infosPhoto = document.querySelector('#infos_photo');
                 const afficherPhoto = document.createElement('img');
                 afficherPhoto.setAttribute("src", `./assets/photographers/images/${images[i].image}`);
+                afficherPhoto.setAttribute("alt", `${images[i].title}`)
                 let para = document.createElement('p');
                 para.textContent = `${images[i].title}`;
                 infosPhoto.appendChild(afficherPhoto);
                 infosPhoto.appendChild(para);
-                // console.log(images.indexOf(`${images[i]}`));
             } else {
                 let infosPhoto = document.querySelector('#infos_photo');
                 const afficherVideo = document.createElement('video');
@@ -296,32 +253,33 @@ async function showImagesSlide(id) {
                 afficherVideo.setAttribute("controls", "true");
                 afficherVideo.setAttribute("style", "cursor: pointer");
                 source.setAttribute("src", `./assets/photographers/images/${images[i].video}`);
+                afficherVideo.setAttribute("aria-label", `${images[i].title}`)
                 let para = document.createElement('p');
                 para.textContent = `${images[i].title}`;
                 infosPhoto.appendChild(afficherVideo);
                 infosPhoto.appendChild(para);
                 afficherVideo.appendChild(source);
             }
-            
+
+
+            let previousImage = document.getElementById("previousImage")
+            let nextImage = document.getElementById("nextImage")
+            if(i == 0) {
+                previousImage.setAttribute("onclick", "");
+                previousImage.setAttribute("style", "visibility: hidden;");
+            } else if(i == images.length - 1) {
+                nextImage.setAttribute("onclick", "");
+                nextImage.setAttribute("style", "visibility: hidden;");
+            } else {
+                let next = images[i + 1].id
+                let back = images[i - 1].id
+                previousImage.setAttribute("onclick", `showImagesSlide(${back})`)
+                nextImage.setAttribute("onclick", `showImagesSlide(${next})`)
+                previousImage.setAttribute("style", "display: block;");
+                nextImage.setAttribute("style", "display: block;")
+            }
         } 
     }
-}
-
-async function slideSuivante() {
-    let pushNext = document.querySelector(".fa-chevron-right");
-    let pushBack = document.querySelector(".fa-chevron-left")
-    let images = await retrievePhotographerPhotos();
-    let type = document.getElementById("select").value;
-    // console.log(type);
-    if(type) {
-        images = await sort(type, images);
-    }
-    let index = images.findIndex(showImagesSlide);
-    console.log(index)
-    let next = index + 1;
-    let back = index - 1;
-    console.log(next)
-    console.log(back)
 }
 
 
@@ -333,7 +291,6 @@ async function init() {
     photographers.forEach((photographerItem) => {
         if (photographerItem.id == userId) {
             photographer = photographerItem;
-            // console.log(photographer)
         }
     });
 
@@ -342,7 +299,6 @@ async function init() {
     media.forEach((mediaItem) => {
         if (mediaItem.photographerId == userId) {
             media = mediaItem;
-            // console.log(media)
         }
     });
 

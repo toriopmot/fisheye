@@ -63,6 +63,11 @@ main {
     margin: auto;
 }
 
+.croix {
+    width: 40px;
+    height: 40px;
+}
+
 .modal header {
     justify-content: space-between;
     width: 100%;
